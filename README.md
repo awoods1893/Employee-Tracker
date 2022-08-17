@@ -4,6 +4,7 @@
   
   # **Employee Tracker**
   # Table of Contents
+  * [User Story](#user-story)
   * [Project Description](#Project-Description)
   * [Usage](#Usage)
   * [Tests](#Tests)
@@ -12,6 +13,9 @@
   * [Contributions](#Contributions)
   * [Questions](#Questions)
 
+  # User Story
+  AS a business owner, I WANT to be able to view and manage the departments, roles, and employees in my company SO THAT I can organize and plan my business.
+  
   # Project Description
   Build a command-line application from scratch to manage a company's employee database, using Node.js, Inquirer, and MySQL.
 
