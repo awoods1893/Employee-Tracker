@@ -31,8 +31,6 @@ function options() {
             'Add an employee',
             'Add a department',
             'Add a role',
-            "Update employee role",
-            'Delete an employee',
             'Exit',
         ]
     }).then (function (answer){
@@ -55,12 +53,6 @@ function options() {
             case 'Add a role':
                 roleAdd();
                 break;
-            case 'Update employee role':
-                roleUpdate();
-                    break;
-            case 'Delete an employee':
-                employeeDelete();
-                    break;
             case 'EXIT': 
                 exitApp();
                     break;
@@ -68,4 +60,178 @@ function options() {
                     break;
         }
     })
-}
+};
+
+//all employees in the database
+function employeeView() {
+    var query = 'SELECT * FROM employee';
+    sqlConnection.query(query, function(err, res){
+        if(err)throw err;
+        console.table('All Employees:', res);
+        options();
+    })
+};
+
+//all roles in the database
+function rolesView(){
+    var query = 'SELECT * FROM role';
+    sqlConnection.query(query, function(err, res){
+        if(err)throw err;
+        console.table('All Roles:', res);
+        options();
+    })
+};
+
+//all departments in the database
+function departmentView() {
+    var query = 'SELECT * FROM department';
+    sqlConnection.query(query, function(err, res){
+        if(err) throw err;
+        console.table('All Departments:', res);
+        options();
+    })
+};
+
+//adding an employee
+function employeeAdd(){
+    sqlConnection.query('SELECT * FROM role', function (err, res){
+        if (err) throw err;
+        inquirer
+            .prompt([
+                {
+                    name: 'first_name',
+                    type: 'input',
+                    message: "What is the employee's first name?",
+                },
+
+                {
+                    name: 'last_name',
+                    type: 'input',
+                    message: "What is the employee's last name?",
+                },
+
+                {
+                    name: 'manager_id',
+                    type: 'input',
+                    message: `What is the employee's manager's ID number?`,
+                },
+
+                {
+                    name: 'role',
+                    type: 'list',
+                    choices: function(){
+                        var roleArray = [];
+                        for (let i=0; i < res.length; i++) {
+                            roleArray.push(res[i].title);
+                        }
+                        return roleArray;
+                    },
+                    message: `What is this employee's role?`
+                }
+                
+                
+            ]).then(function(answer){
+                let role_id;
+                for(let a=0; a < res.length; a++){
+                    if (res[a].title == answer.role) {
+                        role_id = res[a].id;
+                        console.log(role_id)
+                    }
+                }
+                sqlConnection.query(
+                    'INSERT INTO employee SET ?',
+                    {
+                        first_name : answer.first_name,
+                        last_name: answer.last_name,
+                        manager_id: answer.manager_id,
+                        role_id : role_id,
+                    },
+                    function (err) {
+                        if (err) throw err;
+                        console.log('Employee Added!');
+                        options();
+                    })
+                
+            })
+    })
+};
+
+function roleAdd(){
+    sqlConnection.query('SELECT * FROM department', function(err, res) {
+        if (err) throw err;
+    
+        inquirer 
+        .prompt([
+            {
+                name: 'new_role',
+                type: 'input', 
+                message: "What new role would you like to add?"
+            },
+            {
+                name: 'salary',
+                type: 'input',
+                message: `What is the role's salary?`
+            },
+            {
+                name: 'Department',
+                type: 'list',
+                choices: function() {
+                    var deptArry = [];
+                    for (let i = 0; i < res.length; i++) {
+                    deptArry.push(res[i].name);
+                    }
+                    return deptArry;
+                },
+            }
+        ]).then(function (answer) {
+            let department_id;
+            for (let a = 0; a < res.length; a++) {
+                if (res[a].name == answer.Department) {
+                    department_id = res[a].id;
+                }
+            }
+    
+            connection.query(
+                'INSERT INTO role SET ?',
+                {
+                    title: answer.new_role,
+                    salary: answer.salary,
+                    department_id: department_id
+                },
+                function (err, res) {
+                    if(err)throw err;
+                    console.log('Role Added!');
+                    console.table('All Roles:', res);
+                    options();
+                })
+        })
+    })
+};
+
+function departmentAdd() {
+    inquirer
+        .prompt([
+            {
+                name: 'newDepartment', 
+                type: 'input', 
+                message: 'Which department would you like to add?'
+            }
+            ]).then(function (answer) {
+                connection.query(
+                    'INSERT INTO department SET ?',
+                    {
+                        name: answer.newDepartment
+                    });
+                var query = 'SELECT * FROM department';
+                connection.query(query, function(err, res) {
+                if(err)throw err;
+                console.log('Department Added!');
+                console.table('All Departments:', res);
+                options();
+                })
+            })
+};
+
+function exitApp(){
+    sqlConnection.end();
+};
