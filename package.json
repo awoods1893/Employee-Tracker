@@ -9,6 +9,7 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
+        "bcrypt": "^5.0.1",
         "inquirer": "^8.2.4",
         "mysql": "^2.18.1"
     }
