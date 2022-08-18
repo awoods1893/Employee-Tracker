@@ -2,7 +2,7 @@ const mySQL = require('mysql');
 const inquirer = require('inquirer');
 const consoleTable = require('console.table');
 const secureEnv = require('secure-env');
-global.env = secureEnv({secret:'mySecretPassword'});
+
 
 //creating the connection to the mysql database
 const sqlConnection = mySQL.createConnection({
