@@ -21,12 +21,18 @@
 
   # Usage
   This application can be used to track new employees that are added to the database, as well as see different areas of the company's employee database.
+  Screencastify Link: https://drive.google.com/file/d/1yVKdWdJEZhyNmcocbmpHC57kik1nBJ73/view
 
   # Tests
   No testing required.
 
   # Installation
-  Node.js, Inquirer, and MySQL
+  For this application to work, you'll need a running instance of mySQL. You'll also need to install:
+  - node.js for running the application at the command line.
+  - inquirer (npm i inquirer) for prompting for the user's answers.
+  - mysql2 (npm i mysql) for creating the database and seeding it with the intial seed.sql file, connecting to the database, viewing tables in the database and adding records to the database.
+  - secure-env (npm i secure-env) for securely storing database credentials.
+  - console-table (npm i console-table) for printing the database tables to the console.
 
   # License
   This project is covered by the following license: 

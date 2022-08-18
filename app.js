@@ -1,7 +1,9 @@
-const mySQL = require('mysql');
+const mySQL = require('mysql2');
 const inquirer = require('inquirer');
 const consoleTable = require('console.table');
-const secureEnv = require('secure-env');
+
+let secureEnv = require('secure-env');
+global.env = secureEnv({secret:''}); //password obfuscated in the code but it works in the video. I also didn't upload the enc.env file to github
 
 
 //creating the connection to the mysql database
@@ -191,7 +193,7 @@ function roleAdd(){
                 }
             }
     
-            connection.query(
+            sqlConnection.query(
                 'INSERT INTO role SET ?',
                 {
                     title: answer.new_role,
@@ -217,13 +219,13 @@ function departmentAdd() {
                 message: 'Which department would you like to add?'
             }
             ]).then(function (answer) {
-                connection.query(
+                sqlConnection.query(
                     'INSERT INTO department SET ?',
                     {
                         name: answer.newDepartment
                     });
                 var query = 'SELECT * FROM department';
-                connection.query(query, function(err, res) {
+                sqlConnection.query(query, function(err, res) {
                 if(err)throw err;
                 console.log('Department Added!');
                 console.table('All Departments:', res);

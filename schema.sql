@@ -1,8 +1,6 @@
--- creating the initial database
+
 DROP DATABASE IF EXISTS employees_db;
 CREATE DATABASE employees_db;
-
---tell mySQL to use the created database
 USE employees_db;
 
 -- Create the table for department
