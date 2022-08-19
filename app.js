@@ -178,11 +178,11 @@ function roleAdd(){
                 name: 'Department',
                 type: 'list',
                 choices: function() {
-                    var deptArry = [];
+                    var deptArray = [];
                     for (let i = 0; i < res.length; i++) {
-                    deptArry.push(res[i].name);
+                    deptArray.push(res[i].name);
                     }
-                    return deptArry;
+                    return deptArray;
                 },
             }
         ]).then(function (answer) {
