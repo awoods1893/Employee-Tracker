@@ -6,7 +6,7 @@ let secureEnv = require('secure-env');
 global.env = secureEnv({secret:''}); //password obfuscated in the code but it works in the video. I also didn't upload the enc.env file to github
 
 
-//creating the connection to the mysql database
+//creating the connection to the mysql database. uses .env file to pass the credentials to the database
 const sqlConnection = mySQL.createConnection({
     host: global.env.DB_HOST,
     port: global.env.DB_PORT,
@@ -21,6 +21,7 @@ sqlConnection.connect(function(err){
     options();
 })
 
+//present the choices and based on what is selected, run through a specific function
 function options() {
     inquirer.prompt({
         name: 'action',
@@ -158,6 +159,7 @@ function employeeAdd(){
     })
 };
 
+//adding a role to the database
 function roleAdd(){
     sqlConnection.query('SELECT * FROM department', function(err, res) {
         if (err) throw err;
@@ -210,6 +212,7 @@ function roleAdd(){
     })
 };
 
+//adding a department to the database
 function departmentAdd() {
     inquirer
         .prompt([
@@ -234,6 +237,7 @@ function departmentAdd() {
             })
 };
 
+//exits the application if the EXIT option is chosen
 function exitApp(){
     sqlConnection.end();
 };
